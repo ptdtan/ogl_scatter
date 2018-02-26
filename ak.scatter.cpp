@@ -19,19 +19,35 @@
 /* Initialize OpenGL Graphics */
 void initGL() {
 	// Set "clearing" or background color
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black and not opaque
 	glEnable(GL_BLEND);
-	   glShadeModel (GL_FLAT);
+	   // glShadeModel (GL_FLAT);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+   GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+   GLfloat mat_shininess[] = { 50.0 };
+   GLfloat light_position[] = { 1.0, 1.0, 1.0, 0.0 };
+   glClearColor (0.0, 0.0, 0.0, 0.0);
+   glShadeModel (GL_SMOOTH);
+
+   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+
+   glEnable(GL_LIGHTING);
+   glEnable(GL_LIGHT0);
+   glEnable(GL_DEPTH_TEST);
+
 }
  
 /* Handler for window-repaint event. Call back when the window first appears and
    whenever the window needs to be re-painted. */
 void display() {
    glLoadIdentity ();
-gluLookAt (-3.0, 0.0, 2, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);	
 	glClear(GL_COLOR_BUFFER_BIT);
-	
+
+   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+gluLookAt (-3.0, 0.0, 2, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);	
+      // glutSolidSphere (1.0, 10.0, 16);	
 	// using boost::lexical_cast;	
 	
 	double value_x, value_y;
@@ -56,7 +72,7 @@ gluLookAt (-3.0, 0.0, 2, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 	glEnd();
 
 	glBegin(GL_TRIANGLES);
-	glColor4f(0.0f, 1.0f, 0.0f, 0.2f); // Green
+	glColor3f(0.0f, 1.0f, 0.0f); // Green
 	std::cout << "reading file..." << std::endl;
 	if (myfile.is_open()) {
 		while ( getline (myfile,line) ) {
@@ -97,6 +113,7 @@ void reshape (int w, int h)
 
 /* Main function: GLUT runs as a console application starting at main()  */
 int main(int argc, char** argv) {
+   glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB | GLUT_DEPTH);	
 	glutInit(&argc, argv);          			// Initialize GLUT
 	glutInitWindowSize(320, 320);   			// Set the window's initial width & height
 	glutInitWindowPosition(50, 50); 			// Position the window's initial top-left corner

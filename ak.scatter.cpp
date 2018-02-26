@@ -49,8 +49,8 @@ void display() {
 	glVertex2f(0.0f, 1.0f);
 	glEnd();
 
-	glBegin(GL_POINTS);
-	glColor3f(0.0f, 1.0f, 0.0f); // Green
+	glBegin(GL_TRIANGLES);
+	glColor4f(0.0f, 1.0f, 0.0f, 0.5f); // Green
 	std::cout << "reading file..." << std::endl;
 	if (myfile.is_open()) {
 		while ( getline (myfile,line) ) {
@@ -60,7 +60,9 @@ void display() {
 
 			// std::cout << value_x << "\t" << log10(value_x) << "\t" << log10(value_x)/log10(xmax) << std::endl;	
 
-			glVertex2f(log10(value_x)/log10(xmax), value_y/ymax);
+			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax));
+			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax));
+			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01);
 
 		}
 		myfile.close();

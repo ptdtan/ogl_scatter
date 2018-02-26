@@ -19,7 +19,9 @@
 /* Initialize OpenGL Graphics */
 void initGL() {
 	// Set "clearing" or background color
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black and not opaque
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
  
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -42,6 +44,8 @@ void display() {
 
 	glLineStipple(1, 0x3F07);
 	glEnable(GL_LINE_STIPPLE);
+
+
 	
 	glBegin(GL_LINES);
 	glColor3f(1.0f, 0.0f, 0.0f); // red
@@ -50,7 +54,7 @@ void display() {
 	glEnd();
 
 	glBegin(GL_TRIANGLES);
-	glColor4f(0.0f, 1.0f, 0.0f, 0.5f); // Green
+	glColor4f(0.0f, 1.0f, 0.0f, 0.2f); // Green
 	std::cout << "reading file..." << std::endl;
 	if (myfile.is_open()) {
 		while ( getline (myfile,line) ) {
@@ -64,6 +68,9 @@ void display() {
 			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax));
 			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01);
 
+			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax));
+			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax)-0.01);
+			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01);
 		}
 		myfile.close();
 	std::cout << "done." << std::endl;

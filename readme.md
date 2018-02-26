@@ -1,6 +1,6 @@
 # Scatter plot with OpenGL
 
-![alt text](Screenshot_2018-02-24_17-07-06.png "screenshot")
+![alt text](Screenshot_2018-02-26_00-12-52.png "screenshot")
 
 ## Motivation
 

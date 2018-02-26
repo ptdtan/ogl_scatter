@@ -21,13 +21,15 @@ void initGL() {
 	// Set "clearing" or background color
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // Black and not opaque
 	glEnable(GL_BLEND);
+	   glShadeModel (GL_FLAT);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
  
 /* Handler for window-repaint event. Call back when the window first appears and
    whenever the window needs to be re-painted. */
 void display() {
-	
+   glLoadIdentity ();
+gluLookAt (-3.0, 0.0, 2, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);	
 	glClear(GL_COLOR_BUFFER_BIT);
 	
 	// using boost::lexical_cast;	
@@ -64,13 +66,13 @@ void display() {
 
 			// std::cout << value_x << "\t" << log10(value_x) << "\t" << log10(value_x)/log10(xmax) << std::endl;	
 
-			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax));
-			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax));
-			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01);
+			glVertex3f((log10(value_x)/log10(xmax)), (value_y/ymax), 0.0f);
+			glVertex3f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax), 0.0f);
+			glVertex3f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01, 0.0f);
 
-			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax));
-			glVertex2f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax)-0.01);
-			glVertex2f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01);
+			glVertex3f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax), 0.0f);
+			glVertex3f((log10(value_x)/log10(xmax))-0.01, (value_y/ymax)-0.01, 0.0f);
+			glVertex3f((log10(value_x)/log10(xmax)), (value_y/ymax)-0.01, 0.0f);
 		}
 		myfile.close();
 	std::cout << "done." << std::endl;
@@ -79,8 +81,18 @@ void display() {
 	else std::cout << "Unable to open file"; 
 
 	glEnd();
-
+   glutWireCube (1.0);
 	glFlush();
+}
+
+void reshape (int w, int h)
+{
+   glViewport (0, 0, (GLsizei) w, (GLsizei) h); 
+   glMatrixMode (GL_PROJECTION);
+   glLoadIdentity ();
+   // glFrustum (-1.0, 1.0, -1.0, 1.0, 1.5, 20.0);
+   gluPerspective(60.0, 1.0, 1.5, 20.0);
+   glMatrixMode (GL_MODELVIEW);
 }
 
 /* Main function: GLUT runs as a console application starting at main()  */
@@ -90,6 +102,7 @@ int main(int argc, char** argv) {
 	glutInitWindowPosition(50, 50); 			// Position the window's initial top-left corner
 	glutCreateWindow("DESeq2 scatter plot with OpenGL");  	// Create window with the given title
 	glutDisplayFunc(display);       // Register callback handler for window re-paint event
+	   glutReshapeFunc(reshape);
 	initGL();                       // Our own OpenGL initialization
 	glutMainLoop();                 // Enter the event-processing loop
 	return 0;

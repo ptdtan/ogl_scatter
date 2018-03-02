@@ -18,14 +18,21 @@
 void initGL() {
 	// Set "clearing" or background color
 	glClearColor(0,0,0,0);
-	glShadeModel(GL_FLAT);
+
+	GLfloat lightpos[] = {1,1,1,0};
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_DEPTH_TEST);
+	glShadeModel(GL_SMOOTH);
 }
 
 /* Handler for window-repaint event. Call back when the window first appears and
    whenever the window needs to be re-painted. */
 void display() {
 	
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glColor3f(0.0f, 1.0f, 0.0f);	
 

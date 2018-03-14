@@ -22,15 +22,24 @@ void initGL() {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
 
 	glPointSize(5.0f);
+	
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_POINT_SMOOTH);
-
+	
+	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+	glEnable(GL_LINE_SMOOTH);
+	
 	glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_MULTISAMPLE);
 
 	glEnable(GL_MULTISAMPLE);
+ 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// enable alpha
-//	glBlendFunc();	
+	
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);	
 	glEnable(GL_BLEND);
+
 }
  
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -61,7 +70,7 @@ void display() {
 	glEnd();
 
 	glBegin(GL_POINTS);
-	glColor4f(0.0f, 0.5f, 0.0f, 0.1f); // Green
+	glColor3f(0.0f, 0.5f, 0.0f); // Green
 	std::cout << "reading file..." << std::endl;
 	if (myfile.is_open()) {
 		while ( getline (myfile,line) ) {
@@ -79,9 +88,19 @@ void display() {
 	}
 
 	else std::cout << "Unable to open file"; 
-
+	
 	glEnd();
 
+
+	glDisable(GL_LINE_STIPPLE);
+	glLineWidth(5.0f);
+	glBegin(GL_LINES);
+	glColor3f(1.0f, 1.0f, 0.0f); // red
+	glVertex2f(-1.0f, -1.0f);
+	glVertex2f(1.0f, 1.0f);
+	glEnd();
+	glLineWidth(1.0f);
+	
 	glFlush();
 }
 

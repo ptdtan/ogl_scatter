@@ -20,6 +20,17 @@
 void initGL() {
 	// Set "clearing" or background color
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black and opaque
+
+	glPointSize(5.0f);
+	glEnable(GL_POINT_SMOOTH);
+
+	glutInitDisplayMode( GLUT_RGBA | GLUT_DOUBLE | GLUT_MULTISAMPLE);
+
+	glEnable(GL_MULTISAMPLE);
+
+	// enable alpha
+//	glBlendFunc();	
+	glEnable(GL_BLEND);
 }
  
 /* Handler for window-repaint event. Call back when the window first appears and
@@ -50,7 +61,7 @@ void display() {
 	glEnd();
 
 	glBegin(GL_POINTS);
-	glColor3f(0.0f, 1.0f, 0.0f); // Green
+	glColor4f(0.0f, 0.5f, 0.0f, 0.1f); // Green
 	std::cout << "reading file..." << std::endl;
 	if (myfile.is_open()) {
 		while ( getline (myfile,line) ) {
